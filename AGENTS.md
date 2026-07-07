@@ -7,24 +7,24 @@
 
 ## Identity
 
-This repository is **reference documentation** for KiriminAja's public shipping API (developer.kiriminaja.com). It contains scraped, cleaned, and indexed API documentation — not source code for a product.
+This repository is **reference documentation** for KiriminAja's public shipping API (developer.kiriminaja.com). It contains captured, cleaned, and indexed API documentation — not source code for a product.
 
 ---
 
 ## Hard Rules
 
 ### 1. documents/ is immutable (except INDEX)
-- `documents/01..10-*/` contain scraped reference pages. **Do not modify them.**
-- If a document is wrong or incomplete, improve the scrape script and re-run.
+- `documents/01..10-*/` contain captured reference pages. **Do not modify them.**
+- If a document is wrong or incomplete, improve the capture script and re-run.
 - `documents/00-INDEX.md` is the only editable file in that directory.
 
 ### 2. Brand names stay as-is
-- The scraped text references "KiriminAja," "KA Credit," etc. These are preserved as reference material.
-- Do not rename or rebrand in the scraped content.
+- The captured text references "KiriminAja," "KA Credit," etc. These are preserved as reference material.
+- Do not rename or rebrand in the captured content.
 
 ### 3. No API keys in this repo
 - Never commit `.env` files. `.env.example` is a template only.
-- API keys seen during scraping were redacted or not stored.
+- API keys seen during capture were redacted or not stored.
 - See SECURITY.md for key handling.
 
 ### 4. This is not a product repo
@@ -38,10 +38,10 @@ This repository is **reference documentation** for KiriminAja's public shipping 
 
 ### 6. README is the source of truth
 - The README is the entry point for both humans and AI agents.
-- Update it when: new pages scraped, errors fixed in scrape process, structure changes.
+- Update it when: new pages captured, errors fixed in capture process, structure changes.
 
 ### 7. Commit granularly
-- One commit per logical change: "scrape: update after upstream docs refresh," "fix: correct status code mapping," etc.
+- One commit per logical change: "capture: update after upstream docs refresh," "fix: correct status code mapping," etc.
 - Keep each commit small and reviewable.
 
 ### 8. When expanding integration guides
@@ -53,15 +53,15 @@ This repository is **reference documentation** for KiriminAja's public shipping 
 
 ---
 
-## Scraping conventions
+## Capture conventions
 
-When re-scraping developer.kiriminaja.com:
+When re-capture developer.kiriminaja.com:
 
 1. **Browser rendering is mandatory** — the site is Nuxt SPA; `curl` returns empty shells.
 2. **URL slugs follow the sidebar pattern** — see `/tmp/kirimin-urls.txt`.
 3. **Wait for content hydration** — `domcontentloaded` + `waitForFunction` (body text > 400 chars) + scroll trigger + `networkidle`.
 4. **Post-process**: fix `about:blank` URLs, strip garbled title lines, deduplicate headings, strip footer nav text.
-5. **Write scrapers in `/tmp/`** — they are not part of the repo.
+5. **Write capture tools in `/tmp/`** — they are not part of the repo.
 
 ---
 
@@ -79,4 +79,4 @@ When re-scraping developer.kiriminaja.com:
 1. Check if the question is about **the reference content** → look in `documents/`.
 2. Check if the question is about **how to integrate** → reference `AGENTS.md` rule 8.
 3. Check if the question is about **the repo structure** → re-read this file.
-4. If the content looks wrong, it was scraped faithfully from the live site. Do not edit; re-scrape.
+4. If the content looks wrong, it was captured faithfully from the live site. Do not edit; re-capture.

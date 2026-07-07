@@ -6,11 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-## [2026-07-07] — Initial Scrape & Setup
+## [2026-07-07] — Initial Capture & Setup
 
 ### Added
 
-- **Scraped 34 pages** from `developer.kiriminaja.com` across 10 sections:
+- **Captured 34 pages** from `developer.kiriminaja.com` across 10 sections:
   - 01 Get Started (auth, environments, quick-start)
   - 02 Coverage Area (province, city, district, sub-district, keyword search)
   - 03 Important Notes (status codes, service list, shipping label)
@@ -23,7 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - 10 Deprecated API (legacy v6.1 express, v4 instant)
 - **Documentation index** (`documents/00-INDEX.md`) with endpoint summary
 - **README.md** with 16 sections: architecture diagrams, endpoint table, docs index, where to implement, quick start, important notes
-- **AGENTS.md**: 8 hard rules + scraping conventions
+- **AGENTS.md**: 8 hard rules + capture conventions
 - **Banner SVG** (`assets/kiriminaja-banner.svg`)
 - **OpenAPI 3.1 placeholder** (`spec/openapi.yaml`)
 - Project files: `.gitignore`, `.env.example`, `LICENSE` (MIT)

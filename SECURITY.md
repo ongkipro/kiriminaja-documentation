@@ -2,7 +2,7 @@
 
 ## Reporting a Vulnerability
 
-This repository contains scraped reference documentation from KiriminAja's public developer portal. It does **not** store API keys, credentials, authentication tokens, or private data.
+This repository contains captured reference documentation from KiriminAja's public developer portal. It does **not** store API keys, credentials, authentication tokens, or private data.
 
 If you discover a security concern related to this repository:
 
@@ -20,14 +20,14 @@ If you discover a security concern related to this repository:
 
 ## What This Repository DOES Contain
 
-- ✅ Publicly accessible API documentation scraped from [developer.kiriminaja.com](https://developer.kiriminaja.com)
+- ✅ Publicly accessible API documentation captured from [developer.kiriminaja.com](https://developer.kiriminaja.com)
 - ✅ Endpoint shapes, request/response examples (public reference)
 - ✅ Status code taxonomy (public reference)
 - ✅ Environment URLs (already documented on the public portal)
 
 ## Responsible Disclosure
 
-All content was scraped from publicly accessible documentation portals. No authentication bypass, scraping of rate-limited endpoints, or access control circumvention was performed.
+All content was captured from publicly accessible documentation portals. No authentication bypass, capture of rate-limited endpoints, or access control circumvention was performed.
 
 If you are a KiriminAja representative and have concerns about the content in this repository, please contact the maintainer for prompt resolution.
 

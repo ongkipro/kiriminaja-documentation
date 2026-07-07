@@ -83,13 +83,8 @@ When implementing Kirinin's own API:
 
 ## Regenerating this doc
 
-If you want to re-scrape (e.g. KiriminAja docs evolved):
+The capture tooling is intentionally **not** shipped in this repository — the files under `documents/` are the curated output. If KiriminAja's portal changes, refresh with your own pipeline:
 
-```bash
-# Update URL list at /tmp/kirimin-urls.txt (corrected real slugs)
-# Then:
-node /tmp/scrape-final.cjs   # fetches raw HTML (parallel, 4 contexts)
-node /tmp/extract-md-v2.cjs  # converts to markdown
-```
-
-Both scripts require `playwright-core` installed at `/tmp/node_modules/playwright-core` and system Google Chrome at `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome`.
+1. Collect the current page slugs from [developer.kiriminaja.com](https://developer.kiriminaja.com).
+2. Render each page with a headless browser (the portal is a Nuxt SPA, so wait for client-side hydration; plain HTTP returns empty shells). `playwright-core` driving system Chrome/Chromium works well.
+3. Convert the rendered DOM to Markdown, post-process, and reconcile the result against this index.

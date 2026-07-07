@@ -22,7 +22,7 @@ Use it with any server-capable stack: **Next.js**, **Astro**, Node, Hono, Larave
 
 [KiriminAja](https://kiriminaja.com) is an Indonesian logistics aggregator: one API for multi-courier shipping rates, shipment creation, pickup scheduling, and tracking across 15+ couriers.
 
-This repository contains scraped reference documentation from [developer.kiriminaja.com](https://developer.kiriminaja.com) — 34 pages across 10 sections, kept here for offline reference.
+This repository mirrors the public reference documentation from [developer.kiriminaja.com](https://developer.kiriminaja.com) — 34 pages across 10 sections, captured for offline reference and integration planning.
 
 > **Verified:** page structure, sidebar navigation, and endpoint categories were captured 2026-07-07 from the live developer portal. Content includes request/response payloads, status code taxonomy, error codes, and environment configuration.
 
@@ -152,7 +152,7 @@ Minimum requirements:
 ├── .gitignore
 ├── assets/
 │   └── kiriminaja-banner.svg
-├── documents/                ← 34 scraped reference pages across 10 sections
+├── documents/                ← 34 reference pages across 10 sections
 │   ├── 00-INDEX.md           ← navigation map + endpoint summary
 │   ├── 01-get-started/       ← auth, sandbox/prod, quick-start
 │   ├── 02-coverage-area/     ← province → city → district → sub-district
@@ -233,16 +233,9 @@ Patterns observed from the reference — critical for integration:
 
 ## How this was produced
 
-Pages were scraped from [developer.kiriminaja.com](https://developer.kiriminaja.com) in July 2026. The site is a Nuxt SPA — a headless browser was used to wait for client-side hydration, then the rendered DOM was extracted to markdown. Plain HTTP requests return empty shells.
+The reference pages were captured from the public [developer.kiriminaja.com](https://developer.kiriminaja.com) portal in July 2026. The portal is a Nuxt single-page app, so a headless browser renders each page (waiting for client-side hydration) and the resulting DOM is converted to Markdown — plain HTTP requests return empty shells.
 
-To refresh after upstream changes:
-
-```bash
-# Update /tmp/kirimin-urls.txt with current slugs, then:
-node /tmp/scrape-final.cjs    # renders pages to HTML
-node /tmp/extract-md-v2.cjs   # converts HTML → markdown
-node /tmp/clean-md.cjs        # post-process cleanup
-```
+The capture tooling is intentionally **not** shipped in this repository; `documents/` is the curated output. To refresh after an upstream change, re-run a headless-render → HTML → Markdown pipeline against the current slugs, then reconcile the result against [documents/00-INDEX.md](documents/00-INDEX.md).
 
 ---
 
@@ -252,7 +245,7 @@ See [CHANGELOG.md](CHANGELOG.md) for full history.
 
 | Date | Change |
 | --- | --- |
-| 2026-07-07 | 34 pages scraped, cleaned, and indexed. Project files added. |
+| 2026-07-07 | 34 pages captured, cleaned, and indexed. Project files added. |
 
 ---
 
@@ -261,9 +254,9 @@ See [CHANGELOG.md](CHANGELOG.md) for full history.
 This repository is **community-curated reference documentation** and is **not affiliated with, endorsed by, or officially connected to KiriminAja or PT Selalu Siap Solusi.**
 
 - All KiriminAja trademarks, logos, and brand names are property of their respective owners.
-- The content was scraped from the publicly accessible [developer.kiriminaja.com](https://developer.kiriminaja.com) for educational and integration-planning purposes.
+- The content was captured from the publicly accessible [developer.kiriminaja.com](https://developer.kiriminaja.com) for educational and integration-planning purposes.
 - For official documentation, always refer to [developer.kiriminaja.com](https://developer.kiriminaja.com).
-- No API keys, credentials, or private data were scraped or stored.
+- No API keys, credentials, or private data were accessed or stored.
 
 ---
 
@@ -285,10 +278,10 @@ This repository is **community-curated reference documentation** and is **not af
 
 ## Contributing
 
-This is a reference-only repository. The scraped documents in `documents/` are not intended for manual editing.
+This is a reference-only repository. The reference documents in `documents/` are not intended for manual editing.
 
 - **Corrections:** if you find factual errors, [open an issue](https://github.com/ongkipro/kiriminaja-documentation/issues).
-- **Upstream changes:** the scrape process can be re-run when KiriminAja updates their developer portal. See [How this was produced](#how-this-was-produced).
+- **Upstream changes:** the capture process can be re-run when KiriminAja updates their developer portal. See [How this was produced](#how-this-was-produced).
 - **Pull requests:** welcome for README improvements, tooling, and integration examples (when `src/` is added).
 
 ---
@@ -297,7 +290,7 @@ This is a reference-only repository. The scraped documents in `documents/` are n
 
 - No API keys, credentials, or authentication tokens are stored in this repository.
 - The `.env.example` file is a template only — never commit a real `.env` file.
-- If you discover a security issue with the scraping process, please [open an issue](https://github.com/ongkipro/kiriminaja-documentation/issues) rather than a public discussion.
+- If you discover a security issue with the capture process, please [open an issue](https://github.com/ongkipro/kiriminaja-documentation/issues) rather than a public discussion.
 
 ---
 
