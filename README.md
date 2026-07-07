@@ -258,11 +258,56 @@ Requires: `playwright-core` + system Google Chrome.
 
 ---
 
+## Disclaimer
+
+This repository is **community-curated reference documentation** and is **not affiliated with, endorsed by, or officially connected to KiriminAja or PT Selalu Siap Solusi.**
+
+- All KiriminAja trademarks, logos, and brand names are property of their respective owners.
+- The content was scraped from the publicly accessible [developer.kiriminaja.com](https://developer.kiriminaja.com) for educational and integration-planning purposes.
+- For official documentation, always refer to [developer.kiriminaja.com](https://developer.kiriminaja.com).
+- No API keys, credentials, or private data were scraped or stored.
+
+---
+
+## Related Repositories
+
+| Repository | Description |
+| --- | --- |
+| [kiriminaja/php](https://github.com/kiriminaja/php) | Official PHP SDK — Composer package |
+| [kiriminaja/node](https://github.com/kiriminaja/node) | Official Node.js SDK — npm package (`kiriminaja`) |
+| [kiriminaja/go](https://github.com/kiriminaja/go) | Official Go SDK — zero external dependencies |
+| [kiriminaja/python](https://github.com/kiriminaja/python) | Official Python SDK |
+| [kiriminaja/ruby](https://github.com/kiriminaja/ruby) | Official Ruby SDK |
+| [kiriminaja/rust](https://github.com/kiriminaja/rust) | Official Rust SDK |
+| [kiriminaja/docs](https://github.com/kiriminaja/docs) | Official docs source (Nuxt Content) |
+| [kiriminaja/wordpress](https://github.com/kiriminaja/wordpress) | Official WooCommerce plugin |
+| [ongkipro/mengantar-documentation](https://github.com/ongkipro/mengantar-documentation) | Similar reference docs for Mengantar API (sister repo) |
+
+---
+
+## Contributing
+
+This is a reference-only repository. The scraped documents in `documents/` are not intended for manual editing.
+
+- **Corrections:** if you find factual errors, [open an issue](https://github.com/ongkipro/kiriminaja-documentation/issues).
+- **Upstream changes:** the scrape process can be re-run when KiriminAja updates their developer portal. See [How this was produced](#how-this-was-produced).
+- **Pull requests:** welcome for README improvements, tooling, and integration examples (when `src/` is added).
+
+---
+
+## Security
+
+- No API keys, credentials, or authentication tokens are stored in this repository.
+- The `.env.example` file is a template only — never commit a real `.env` file.
+- If you discover a security issue with the scraping process, please [open an issue](https://github.com/ongkipro/kiriminaja-documentation/issues) rather than a public discussion.
+
+---
+
 ## About
 
 This reference documentation is curated by **[ongki.pro](https://ongki.pro)**.
 
-We build tools for Indonesian commerce — shipping integration, storefronts, payments, and automation.
+We build tools for Indonesian commerce — shipping integration, storefronts, payments, and automation — with a terminal-first engineering philosophy.
 
 **Governance:** [AGENTS.md](AGENTS.md) · [LICENSE](LICENSE)
 
