@@ -1,14 +1,15 @@
 <div align="center">
 
-# KiriminAja API Reference Documentation
+<img src="assets/kiriminaja-banner.svg" alt="KiriminAja API Reference Documentation" width="100%">
 
 **Reference documentation and integration patterns for KiriminAja's Indonesia multi-courier shipping API — curated by [ongki.pro](https://ongki.pro).**
 
 Use it with any server-capable stack: **Next.js**, **Astro**, Node, Hono, Laravel, Python, Go, serverless functions, or your own backend.
 
-![phase](https://img.shields.io/badge/phase-reference-blue?labelColor=0b1220)
+[![by ongki.pro](https://img.shields.io/badge/by-ongki.pro-34d399?labelColor=0b1220)](https://ongki.pro)
 ![pages](https://img.shields.io/badge/pages-34-success)
 ![endpoints](https://img.shields.io/badge/endpoints-18%2B-informational)
+![OpenAPI](https://img.shields.io/badge/OpenAPI-3.1-blue)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 ![last update](https://img.shields.io/badge/last%20update-2026--07--07-informational)
 ![couriers](https://img.shields.io/badge/couriers-JNE%20·%20SiCepat%20·%20J%26T%20·%20Anteraja%20·%20Ninja%20·%20Lion%20·%20IDExpress%20·%20SAP%20·%20Pos-lightgrey)
@@ -112,6 +113,30 @@ sequenceDiagram
 | — | `/others/courier-detail` | Courier service details |
 
 **Auth:** API key passed as Bearer token: `Authorization: Bearer {api_key}`. **Response:** JSON, with a `status: true/false` field. Full reference → [documents/00-INDEX.md](documents/00-INDEX.md).
+
+---
+
+## Where to implement
+
+The API is stack-agnostic. You only need server-side HTTP calls.
+
+| Target | Pattern | Page reference |
+| --- | --- | --- |
+| **Next.js** App Router / Vercel | Route Handlers / Server Actions | [05-order/express](documents/05-order/01-express.md) + [01-get-started](documents/01-get-started/01-introduction.md) |
+| **Astro** + Cloudflare/Node | Server endpoints (`src/pages/api/*`) | Adapt from Next.js pattern; same `fetch`-based approach |
+| **Node/Express, Hono, Nest** | Shared `request()` helper | Follow [01-get-started](documents/01-get-started/01-introduction.md) for auth + base URL |
+| **PHP / Laravel, Python / FastAPI, Go** | Port the HTTP client; keep key server-side | All [05-order](documents/05-order/) endpoints apply |
+| **Serverless** Cloudflare Workers, Vercel, Lambda | Proxy + cache at edge/function layer | GET endpoints cache-friendly (`revalidate: 300`) |
+| **Database** Supabase/Postgres/MySQL | Shipments model + status tracking | Status codes → [03-important-notes/status-mapping](documents/03-important-notes/02-status-mapping.md) |
+| **Automation** queue/cron | Async order creation + tracking polling | Core flow → architecture diagram above |
+
+Minimum requirements:
+
+1. call KiriminAja only from the server
+2. store `destination_id` from `/coverage-area/*` lookup
+3. normalise area names
+4. create shipments via a job/queue
+5. poll tracking status with backoff (webhook as primary if available)
 
 ---
 
