@@ -1,0 +1,58 @@
+> Source: [developer.kiriminaja.com/docs/order/tracking-instant — Tracking Order Instant](https://developer.kiriminaja.com/docs/order/tracking-instant)
+
+# Tracking Order Instant
+
+Get the details of your awb which created via KiriminAja API
+
+**Endpoint**: `GET`Is not recommended to use pull tracking for instant delivery method, you must implement webhooks for this deliveryhere
+
+### Body Payloads
+
+| Payload | Values | Type | Required |
+| --- | --- | --- | --- |
+| order_id | order_id | String | YES |
+
+## Request Example
+
+```
+curl --location 'https://tdev.kiriminaja.com/api/mitra/v4/instant/tracking/NBL2-1705636897084' \ --header 'Accept: application/json' \ --header 'Content-Type: application/json' \ --header 'Authorization: Bearer {token}'
+```
+
+### Response Success
+
+```
+{ "status": true, "text": "success", "code": 0, "method": null, "result": { "driver": { "name": null, "phone": null, "photo": null }, "origin": { "name": "Arfian", "address": "Wirobrajan, Kota Yogyakarta, Daerah Istimewa Yogyakarta, Indonesia", "address_note": "Tidak Ada Origin", "phone": "081280045616", "lat": -7.8032616, "long": 110.350244 }, "destination": { "name": "Arfian", "address": "Minomartani, Kec. Ngaglik, Kabupaten Sleman, Daerah Istimewa Yogyakarta, Indonesia", "address_note": "Tidak Ada Destination", "phone": "081280045616", "lat": -7.7349434, "long": 110.405355 }, "date": { "created_at": "2024-01-19T04:01:37.000000Z", "finished_at": null, "allocated_at": null, "canceled_at": null }, "cost": { "shipping_cost": 34000, "insurance": null, "admin_fee": 1000, "total_price": 35000 }, "item": { "price": 20000, "description": "Barang 1" }, "order_id": "NBL2-1705636897084", "service": "gosend", "service_type": "instant", "tracking_code": "GK-11-3120092", "cancel_description": null, "live_tracking_url": null } }
+```
+
+### Response Failed
+
+```
+{ "status": false, "text": "data not found", "code": 2, "method": null, "result": null }
+```
+
+### Response Body Explanation
+
+| Param | DataType | Remark |
+| --- | --- | --- |
+| status | Boolean | Request result status |
+| text | String | Response message |
+| code | Integer | Internal response code |
+| method | String | API method name (can be null) |
+| result | Object | Tracking details (null when not found) |
+
+### Result Object
+
+| Param | DataType | Remark |
+| --- | --- | --- |
+| driver | Object | Driver information |
+| origin | Object | Pickup location details |
+| destination | Object | Destination location details |
+| date | Object | Shipment lifecycle timestamps |
+| cost | Object | Shipment cost breakdown |
+| item | Object | Item details |
+| order_id | String | Merchant order ID |
+| service | String | Courier/service provider code |
+| service_type | String | Service type |
+| tracking_code | String | Air waybill / tracking code |
+| cancel_description | String | Cancellation reason (if canceled) |
+| live_tracking_url | String | Real-time tracking URL (can be null) |

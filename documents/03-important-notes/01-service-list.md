@@ -1,0 +1,41 @@
+> Source: [developer.kiriminaja.com/docs/important-notes/service-list — 3PL Availability](https://developer.kiriminaja.com/docs/important-notes/service-list)
+
+# 3PL Availability
+
+Connected to more than 15 express expeditions, here are the availability of services that we open for your business
+
+Information
+
+The availability of COD, Pickup, and Dropoff services is subject to change at any time following the terms of the expedition.
+
+## Express Delivery
+
+| # | 3PL | Service | Drop-off | Pickup | Round | Volumetric | Support COD | Cut-off Time |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | JNE | Regular, OKE, JTR, CTC | YES | YES | 0.3 | 6.000 | YES | false |
+| 2 | J&T | Regular, SameDay, Next Day | NO | YES | 0.3 | 6.000 | YES | Same Day: 10:00:00 |
+| 3 | AnterAja | Next Day, Same Day, Regular | NO | YES | 0.3 | 6.000 | YES | false |
+| 4 | Lion Parcel | Boss Pack, Lion Regpack, BIGPACK, Jagopack | NO | YES | 0.3 | 6.000 | YES | false |
+| 5 | Paxel | Same Day | NO | YES | 0.3 | 6.000 | YES | 14:00:00 |
+| 6 | Rpx | Regular | NO | YES | 0.3 | 6.000 | YES | false |
+| 7 | Pos Indonesia | Regular, Pos Kilat Khusus, Pos Kargo | NO | YES | 0.3 | 6.000 | YES | false |
+| 8 | SiCepat | Cargo Kilat, Berani Bayar Murah, Regular | YES | YES | 0.3 | 6.000 | YES | false |
+| 9 | Ninja Express | Standard | NO | YES | 0.3 | 6.000 | YES | false |
+| 10 | NCS Courier | Regular | NO | YES | 0.3 | 6.000 | YES | false |
+| 11 | J&T Cargo | Regular | NO | YES | 0.3 | 5.000 | YES | false |
+| 12 | SAP Express | Satria Reg, Reguler Darat, One Day, Same Day | NO | YES | 0.3 | 6.000 | YES | false |
+| 13 | Tiki | Economy, Regular | NO | YES | 0.3 | 6.000 | YES | false |
+| 14 | Sentral Cargo | Darat, Udara | NO | YES | 0.1 | 4.000 | false | false |
+| 15 | ID Express | Standard, ID Lite, ID Truck | YES | YES | 0.3 | 6.000 | YES | false |
+
+The couriers available in the table above may adjust the coverage area and the server used. Contact our technical team for more information.
+
+ **Disclaimer** : There are separate APIs for Pos Indonesia, RPX, and Paxel services. Please contact our technical team for more information.
+
+## Instant Delivery
+
+| Code | Expedition Name | Multi Destination Capability | Production | Sandbox |
+| --- | --- | --- | --- | --- |
+| gosend | GoSend | ⛔ | ✅ | ✅ |
+| grab_express | Grab Express | ⛔ | ✅ | ✅ |
+| borzo | Borzo Delivery | ✅ | ✅ | ✅ |

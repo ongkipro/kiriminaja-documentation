@@ -1,0 +1,33 @@
+> Source: [developer.kiriminaja.com/docs/pickup/schedule — Pickup Schedule](https://developer.kiriminaja.com/docs/pickup/schedule)
+
+# Pickup Schedule
+
+We provide two shipping methods, namely pickup and drop-off. If you are interested in using our pickup service, then read this documentation for a good implementation
+
+**Endpoint**: `POST`Information
+
+If your company prefers a fixed daily pickup process, you can set custom pickup hours and skip this endpoint.
+
+You can use your own working-hours pickup schedule, as long as pickup is requested before 16:00 (4:00 PM) local time.
+
+### Response
+
+```
+{ "status": true, "method": "schedules", "text": "Success", "schedules": [ { "clock": "2021-02-15 14:00:00", "until": "16:00", "expired": 1613385000, "libur": false }, { "clock": "2021-02-16 08:00:00", "until": "11:00", "expired": 1613457000, "libur": false } ] }
+```
+
+| Param | DataType | Remark |
+| --- | --- | --- |
+| status | Boolean | Request result status |
+| method | String | API method name (schedules) |
+| text | String | Response message |
+| schedules | Array of Object | Available pickup schedule windows |
+
+### Schedules Object
+
+| Param | DataType | Remark |
+| --- | --- | --- |
+| clock | String | Pickup start datetime in local timezone (YYYY-MM-DD HH:mm:ss) |
+| until | String | Pickup window end time (HH:mm) |
+| expired | Integer | Unix timestamp when this schedule option expires |
+| libur | Boolean | Holiday flag (true means holiday / not available for regular pickup) |

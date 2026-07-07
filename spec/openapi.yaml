@@ -1,0 +1,90 @@
+# Kirimin OpenAPI 3.1 Specification
+# 
+# This file is a placeholder. The full spec will be authored during Phase 1.
+#
+# When ready, it will contain:
+# - All Kirimin API endpoints with request/response schemas
+# - Zod-compatible validation rules
+# - Error code taxonomy
+# - Authentication scheme
+#
+# Reference material for designing this spec:
+# → documents/00-INDEX.md (endpoint summary from reference scrape)
+
+openapi: "3.1.0"
+info:
+  title: Kirimin API
+  description: |
+    Multi-courier shipping aggregator API for Indonesia.
+    
+    Covers: coverage area lookup, rate quoting, order creation, 
+    tracking, webhooks, payment, and courier management.
+    
+    **Authentication:** Bearer token via `Authorization` header.
+  version: "0.1.0"
+  contact:
+    name: ongki.pro
+    url: https://ongki.pro
+
+servers:
+  - url: http://localhost:8787
+    description: Local development
+  - url: https://api.kirimin.dev
+    description: Sandbox (future)
+
+paths:
+  # ==========================================
+  # Phase 1: Coverage Area endpoints
+  # ==========================================
+  # ==========================================
+  # Phase 1: Pricing endpoints
+  # ==========================================
+  # ==========================================
+  # Phase 2: Order endpoints
+  # ==========================================
+  # ==========================================
+  # Phase 2: Tracking endpoints
+  # ==========================================
+  # ==========================================
+  # Phase 3: Webhook endpoints
+  # ==========================================
+  # ==========================================
+  # Phase 3: Payment endpoints
+  # ==========================================
+  # ==========================================
+  # Phase 4: Utility endpoints
+  # ==========================================
+
+# TODO: uncomment and fill in as each section is designed
+#   /coverage-area/province:
+#     get:
+#       summary: List provinces
+#       ...
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: API key passed as Bearer token
+
+  schemas:
+    # Will be populated during Phase 1
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        code:
+          type: integer
+          description: Error code
+        text:
+          type: string
+          description: Human-readable error message
+      required:
+        - success
+        - text
+
+security:
+  - BearerAuth: []

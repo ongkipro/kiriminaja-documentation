@@ -1,0 +1,40 @@
+> Source: [developer.kiriminaja.com/docs/order/void — Cancel Order Express](https://developer.kiriminaja.com/docs/order/void)
+
+# Cancel Order Express
+
+Cancellation of packages that are in the process of waiting for pickup or awaiting delivery
+
+**Endpoint**: `POST`
+- Requests for cancellation through this API can only be made for packages that have not yet been picked up by the courier.
+- Non-COD packages will undergo a maximum 48-hour queuing process to be fully voided from the system, while COD packages will be canceled immediately.
+
+## Request
+
+| Param | DataType | Nullable | Description |
+| --- | --- | --- | --- |
+| awb | string(30) | false | AWB Number Already Obtained, Not Order ID |
+| reason | string(min:5,max:200) | false | Reasons for Cancelling a Package |
+
+```
+{ "awb": "DEVEL-000000004", "reason": "Package data is incorrect" }
+```
+
+## Example Response
+
+```
+{ "status": true, "method": "cancel_shipment", "text": "Paket akan dibatalkan dalam 2x24jam", "data": { "success": "pending", "date": "2024-06-17 02:00:00" } }
+```
+
+| Param | DataType | Remark |
+| --- | --- | --- |
+| status | Boolean | Request result status |
+| method | String | API method name (cancel_shipment) |
+| text | String | Response message |
+| data | Object | Cancellation queue result |
+
+### Data Object
+
+| Param | DataType | Remark |
+| --- | --- | --- |
+| success | String | Cancellation status (pending, success, etc.) |
+| date | String | Estimated/recorded cancellation processing time |

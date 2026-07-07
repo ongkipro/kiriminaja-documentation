@@ -1,0 +1,48 @@
+> Source: [developer.kiriminaja.com/docs/coverage-area/subdistrict-by-name — Subdistrict by Keyword](https://developer.kiriminaja.com/docs/coverage-area/subdistrict-by-name)
+
+# Subdistrict by Keyword
+
+Search for subdistricts by name keyword or postal code. Requests are rate-limited — excessive calls will temporarily suspend your API access
+
+**Endpoint**: `GET` **Disclaimer** : There are separate APIs for Pos Indonesia, RPX, and Paxel services. Please contact our technical team for more information.The request must be sent via URL parameters (query params), not in the request body (raw body).
+
+## Request
+
+### Query Parameters
+
+| Field | DataType | Nullable | Desc |
+| --- | --- | --- | --- |
+| search | string(min: 3) | false | Search keyword. Matches against province, city, district, subdistrict name, or postal code |
+
+```
+{ "search": "Ngemplak" }
+```
+
+### Supported Search Keywords
+
+This API supports searching by the following keywords:
+
+- Province name (e.g., "Jawa Timur")
+- City name (e.g., "Surabaya")
+- District name (e.g., "Ngemplak")
+- Subdistrict name (e.g., "Sidokerto")
+- Postal code (e.g., "61475")
+- Combination of the above (e.g., "Sidokerto, Mojowarno, Jombang, Jawa Timur, 61475")
+
+## Response
+
+| Field | DataType | Desc |
+| --- | --- | --- |
+| status | boolean | Request status |
+| text | string | Response message |
+| data | array | List of matched sub districts |
+| data[].province_id | integer | Province ID |
+| data[].city_id | integer | City ID |
+| data[].district_id | integer | District ID |
+| data[].subdistrict_id | integer | Sub District ID |
+| data[].full_address | string | Full address (sub district, district, city, province, postal code) |
+| method | string | API method name |
+
+```
+{ "status": true, "text": "Success", "data": [ { "province_id": 11, "city_id": 164, "district_id": 2275, "subdistrict_id": 46310, "full_address": "Sidokerto, Mojowarno, Jombang, Jawa Timur, 61475" }, { "province_id": 11, "city_id": 251, "district_id": 3550, "subdistrict_id": 40316, "full_address": "Sidokerto, Sidorejo, Magetan, Jawa Timur, 63352" }, { "province_id": 11, "city_id": 306, "district_id": 4348, "subdistrict_id": 40399, "full_address": "Sidokerto, Karangjati, Ngawi, Jawa Timur, 63284" }, { "province_id": 10, "city_id": 344, "district_id": 4833, "subdistrict_id": 66968, "full_address": "Sidokerto, Pati, Pati, Jawa Tengah, 59111" }, { "province_id": 11, "city_id": 409, "district_id": 5632, "subdistrict_id": 70886, "full_address": "Sidokerto, Buduran, Sidoarjo, Jawa Timur, 61252" }, { "province_id": 10, "city_id": 427, "district_id": 5874, "subdistrict_id": 62642, "full_address": "Sidokerto, Plupuh, Sragen, Jawa Tengah, 57283" }, { "province_id": 10, "city_id": 497, "district_id": 6889, "subdistrict_id": 62966, "full_address": "Sidokerto, Girimarto, Wonogiri, Jawa Tengah, 57683" }, { "province_id": 18, "city_id": 225, "district_id": 3179, "subdistrict_id": 74983, "full_address": "Sidokerto, Bumi Ratu Nuban, Lampung Tengah, Lampung, 34161" }, { "province_id": 11, "city_id": 444, "district_id": 6152, "subdistrict_id": 69312, "full_address": "Simokerto, Simokerto, Surabaya, Jawa Timur, 60143" }, { "province_id": 11, "city_id": 444, "district_id": 6152, "subdistrict_id": 69310, "full_address": "Kapasan, Simokerto, Surabaya, Jawa Timur, 60141" }, { "province_id": 11, "city_id": 444, "district_id": 6152, "subdistrict_id": 69311, "full_address": "Sidodadi, Simokerto, Surabaya, Jawa Timur, 60145" }, { "province_id": 11, "city_id": 444, "district_id": 6152, "subdistrict_id": 69313, "full_address": "Simolawang, Simokerto, Surabaya, Jawa Timur, 60144" }, { "province_id": 11, "city_id": 444, "district_id": 6152, "subdistrict_id": 69314, "full_address": "Tambakrejo, Simokerto, Surabaya, Jawa Timur, 60142" } ], "method": "getAddresses" }
+```

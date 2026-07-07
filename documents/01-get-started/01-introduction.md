@@ -1,0 +1,71 @@
+> Source: [developer.kiriminaja.com/docs/introduction — Overview](https://developer.kiriminaja.com/docs/introduction)
+
+# Overview
+
+KiriminAja Mitra API lets you integrate shipping workflows — check rates, create orders, request pickups, and track deliveries — into your platform with a single REST API
+
+KiriminAja Mitra API is a REST API that enables shipping integration for your platform. One API covers all supported couriers.
+
+## Supported Workflows
+
+| Workflow | What You Can Do |
+| --- | --- |
+| Check Rates | Compare shipping costs across 15+ couriers |
+| Create Order | Generate AWB numbers for express & instant delivery |
+| Request Pickup | Schedule courier pickup from your location |
+| Track Order | Monitor delivery status via webhook or polling |
+| Manage Payment | Handle COD and non-COD payment flows |
+| Coverage Area | Look up provinces, cities, districts, and subdistricts |
+
+## Environment Endpoints
+
+| Environment | Base URL |
+| --- | --- |
+| Sandbox | https://tdev.kiriminaja.com |
+| Production | https://client.kiriminaja.com |
+
+## Authentication
+
+All API requests require an API key passed as a Bearer token:
+
+| Header | Value |
+| --- | --- |
+| Accept | application/json |
+| Content-Type | application/json |
+| Authorization | Bearer {api_key} |
+
+## Quick Start
+
+Recommended onboarding method: Postman Collection.
+
+1. Install Postman. See Installing and Updating Postman.
+2. Download the KiriminAja Mitra API Postman Collection.
+3. Import the collection into your Postman app.
+4. Get your KiriminAja API Key (see How to Get KiriminAja API Key).
+5. Set api_key in the Postman collection with the API key from Sandbox Dashboard.
+
+## How to Get KiriminAja API Key
+
+1. Register for a Sandbox account at the Sandbox Dashboard.
+2. Complete the registration process.
+3. Log in to Sandbox Dashboard.
+4. Wait for account approval.
+5. Open Integrasi and copy your API Key.
+
+## Rate Limiting
+
+The Sandbox environment enforces rate limiting. If you exceed the limit, your requests will receive a 429 Too Many Requests response. Contact our technical team for production rate limit details.
+
+## SDK Availability
+
+Available SDK languages:
+
+- PHP
+- Node.js
+- Go
+- Python
+- Ruby
+
+For supported versions, installation guides, and latest releases, see SDK Availability.
+
+Coverage Area KiriminAja supports a unified coverage mapping combining all logistics partners into a single, standardized area reference

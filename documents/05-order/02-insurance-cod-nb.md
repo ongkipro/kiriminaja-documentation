@@ -1,0 +1,27 @@
+> Source: [developer.kiriminaja.com/docs/order/insurance-cod-nb — Insurance, COD & Item Price](https://developer.kiriminaja.com/docs/order/insurance-cod-nb)
+
+# Insurance, COD & Item Price
+
+How insurance amounts, COD fees, and additional costs are calculated for your shipments
+
+## Insurance Fee Calculation
+
+| Parameter | How It's Determined |
+| --- | --- |
+| item_value | The declared value of the goods (e.g., 20000) |
+| Insurance percentage | Set by the 3PL. See Terms & Conditions |
+| insurance_amount | item_value × percentage, rounded up to the nearest 100 |
+
+## COD Fee Calculation
+
+| Parameter | How It's Determined |
+| --- | --- |
+| item_value | 20000 |
+| shipping_cost | 15000 |
+| insurance_amount | 500 |
+| COD fee percentage | Set by the 3PL. See Terms & Conditions |
+| Subtotal | item_value + shipping_cost + insurance_amount = 35500 |
+| add_cost | subtotal × cod_fee_percentage, rounded up to the nearest integer |
+| cod | subtotal + add_cost |
+
+> For faster pickup requests, shipping cost validation happens during driver validation rather than through the API.

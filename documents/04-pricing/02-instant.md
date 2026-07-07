@@ -1,0 +1,44 @@
+> Source: [developer.kiriminaja.com/docs/pricing/instant — Get Pricing Instant](https://developer.kiriminaja.com/docs/pricing/instant)
+
+# Get Pricing Instant
+
+API pricing for instant delivery services is flexible and scalable, with a tiered structure based on the volume of requests or deliveries
+
+**Endpoint**: `POST`
+
+## Notes
+
+- The instant delivery API uses a different base URL than the express API. Double-check your endpoint before sending requests.
+- Response formats differ between Sandbox and Production. Review the examples below carefully.
+
+## Request
+
+| Param | Type | Values | Nullable | Remark |
+| --- | --- | --- | --- | --- |
+| service | array | gosend, borzo, grab_express | yes | Courier service code(s) |
+| item_price | int |  | no | Declared value of goods |
+| origin | object |  | no | Sender location (see object spec below) |
+| destination | object |  | no | Recipient location (see object spec below) |
+| weight | int |  | no | Package weight in grams. Maximum: 40,000 g (40 kg) |
+| vehicle | string | motor (default), mobil | no | Transport vehicle type |
+| timezone | string | WIB (default), WIT, WITA | no | Timezone — limited coverage by region |
+
+### origin & destination object
+
+| Param | Type | Nullable | Remark |
+| --- | --- | --- | --- |
+| lat | float | no | Latitude |
+| long | float | no | Longitude |
+| address | string | no | Complete address details |
+
+## Request Sample
+
+```
+curl --location 'https://tdev.kiriminaja.com/api/mitra/v4/instant/pricing' \ --header 'Accept: application/json' \ --header 'Content-Type: application/json' \ --header 'Authorization: Bearer {token}' \ --data '{ "service" : ["gosend", "borzo", "grab_express"], "item_price" : 20000, "origin" : { "lat" : -7.8032616, "long" : 110.350244, "address" : "Wirobrajan, Kota Yogyakarta, Daerah Istimewa Yogyakarta, Indonesia" }, "destination" : { "lat" : -7.734943400000001, "long" : 110.405355, "address" : "Minomartani, Kec. Ngaglik, Kabupaten Sleman, Daerah Istimewa Yogyakarta, Indonesia" }, "weight" : 2, "vehicle" : "motor", "timezone" : "WIB" }'
+```
+
+## Response Sample
+
+```
+{ "status": true, "text": "success", "method": "mitra_pricing", "result": [ { "name": "gosend", "costs": [ { "service_type": "instant", "estimation": "1-2 hours", "price": { "admin_fee": 1000, "shipping_costs": 54000, "total_price": 55000 } }, { "service_type": "sameday", "estimation": "6-8 hours", "price": { "admin_fee": 1000, "shipping_costs": 31500, "total_price": 32500 } } ], "insurances": [ { "value": 500, "type": "silver" }, { "value": 1000, "type": "gold" } ] }, { "name": "borzo", "costs": [ { "service_type": "instant", "estimation": null, "price": { "admin_fee": 1500, "shipping_costs": 8800, "total_price": 10300 } } ], "insurances": [ { "value": 500, "type": "silver" }, { "value": 1000, "type": "gold" } ] } ], "code": null }
+```

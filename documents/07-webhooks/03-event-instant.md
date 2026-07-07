@@ -1,0 +1,57 @@
+> Source: [developer.kiriminaja.com/docs/webhook/event-instant — Webhook Payload Instant](https://developer.kiriminaja.com/docs/webhook/event-instant)
+
+# Webhook Payload Instant
+
+Webhook payloads sent for instant delivery events — shipping, cancellation, and delivery completion
+
+Information
+
+If our webhook endpoint is unavailable, use the Instant Tracking API to pull shipment status directly. This ensures you stay updated even during outages.
+
+## HTTP Headers
+
+| Key | Value |
+| --- | --- |
+| Content-Type | application/json |
+| Accept | application/json |
+| User-Agent | KiriminAja-Push-Services |
+| Authorization | Bearer {api_key} |
+
+## Generic Payload Structure
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| method | String | Event type identifier (e.g., shipped_packages, finished_packages) |
+| data | Mixed | Event data — varies by event type. See each event below for its shape. |
+
+## Events (Instant)
+
+### shipped_packages — Package Picked Up
+
+Information
+
+The package has been picked up and is being transported by the courier.
+
+```
+{ "method": "shipped_packages", "data": [ { "order_id": "BDI-1754377171060", "awb": "GK-11-3289048", "date": "2025-08-05T06:59:31.000000Z", "shipped_at": "2025-08-05T07:00:05.000000Z", "finished_at": null, "returned_at": null, "rejected_at": null, "reason": null } ], "payment": { "payment_id": "PID-1754377171", "amount": 30500, "status_code": 0, "qr_content": null, "pay_time": null }, "packages": [ { "awb": "GK-11-3289048", "order_id": "BDI-1754377171060", "service": "gosend", "service_type": "instant", "status": 106, "live_tracking_url": "some-tracking-url-instant", "poly_line": "some-poly-line-instant", "origin": { "name": "Daniel", "address": "Wirobrajan, Kota Yogyakarta, Daerah Istimewa Yogyakarta, Indonesia", "phone": "(sender phone number)", "latitude": -7.8032616, "longitude": 110.350244 }, "destination": { "name": "Rizky Okka S", "address": "Minomartani, Kec. Ngaglik, Kabupaten Sleman, Daerah Istimewa Yogyakarta, Indonesia", "phone": "(receiver phone number)", "latitude": -7.7349434, "longitude": 110.405355 }, "driver": { "name": null, "phone": null, "image": null } } ] }
+```
+
+### canceled_packages — Package Canceled
+
+Information
+
+The shipment has been canceled by the system or by the user.
+
+```
+{ "method": "canceled_packages", "data": [ { "order_id": "BDI-1754377476085", "awb": "GK-11-3289052", "date": "2025-08-05T07:04:36.000000Z", "shipped_at": "2025-08-05T07:05:47.000000Z", "finished_at": null, "returned_at": null, "rejected_at": null, "reason": null } ], "payment": { "payment_id": "PID-1754377477", "amount": 30500, "status_code": 0, "qr_content": null, "pay_time": null }, "packages": [ { "awb": "GK-11-3289052", "order_id": "BDI-1754377476085", "service": "gosend", "service_type": "instant", "status": 300, "live_tracking_url": null, "poly_line": "poly-line-instant", "origin": { "name": "Daniel", "address": "Wirobrajan, Kota Yogyakarta, Daerah Istimewa Yogyakarta, Indonesia", "phone": "(sender phone number)", "latitude": -7.8032616, "longitude": 110.350244 }, "destination": { "name": "Rizky Okka S", "address": "Minomartani, Kec. Ngaglik, Kabupaten Sleman, Daerah Istimewa Yogyakarta, Indonesia", "phone": "(receiver phone number)", "latitude": -7.7349434, "longitude": 110.405355 }, "driver": { "name": null, "phone": null, "image": null } } ] }
+```
+
+### finished_packages — Package Delivered
+
+Information
+
+The shipment has been delivered to and received by the recipient.
+
+```
+{ "method": "finished_packages", "data": [ { "order_id": "BDI-1754377171060", "awb": "GK-11-3289048", "date": "2025-08-05T06:59:31.000000Z", "shipped_at": "2025-08-05T07:00:05.000000Z", "finished_at": "2025-08-05T07:00:43.000000Z", "returned_at": null, "rejected_at": null, "reason": null } ], "payment": { "payment_id": "PID-1754377171", "amount": 30500, "status_code": 0, "qr_content": null, "pay_time": null }, "packages": [ { "awb": "GK-11-3289048", "order_id": "BDI-1754377171060", "service": "gosend", "service_type": "instant", "status": 200, "live_tracking_url": "live-tracking-url-instant", "poly_line": "poly-line-instant", "origin": { "name": "Daniel", "address": "Wirobrajan, Kota Yogyakarta, Daerah Istimewa Yogyakarta, Indonesia", "phone": "(sender phone number)", "latitude": -7.8032616, "longitude": 110.350244 }, "destination": { "name": "Rizky Okka S", "address": "Minomartani, Kec. Ngaglik, Kabupaten Sleman, Daerah Istimewa Yogyakarta, Indonesia", "phone": "(receiver phone number)", "latitude": -7.7349434, "longitude": 110.405355 }, "driver": { "name": null, "phone": null, "image": null } } ] }
+```

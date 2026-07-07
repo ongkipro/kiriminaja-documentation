@@ -1,0 +1,84 @@
+> Source: [developer.kiriminaja.com/docs/important-notes/status-mapping — Status Code](https://developer.kiriminaja.com/docs/important-notes/status-mapping)
+
+# Status Code
+
+Package status codes and their meanings from new packages to final delivery states including transit, attempt, and cancellation statuses
+
+1. New — The package has been created by the client and is waiting to be processed by the 3PL.
+2. Transit — The package is being processed by the 3PL and will be shipped according to the agreed SLA.
+3. Attempt — The package could not be delivered to the destination due to an issue (e.g., recipient unavailable, wrong address).
+4. Final — The package delivery process has ended (delivered, canceled, returned, or lost).
+
+## Status Flow
+
+```
+sequenceDiagram participant Client participant KiriminAja participant PG participant 3PL Client ->> KiriminAja: Request AWB (Both COD & Non-COD) KiriminAja -->> PG: Create Non-COD Payment (If Necessary) PG -->> KiriminAja: Confirm Payment (If any of Non-COD) KiriminAja -->> KiriminAja: Schedule Push AWB KiriminAja ->> 3PL: Create AWB (Pickup & Drop-Off) 3PL ->> KiriminAja: Confirm AWB Created KiriminAja ->> Client: AWB Confirmed (Webhooks)
+```
+
+### Entry State
+
+Information
+
+Entry State is the initial status when a new package is created by the client and waiting to be processed by the 3PL.
+
+| Code | Description |
+| --- | --- |
+| 100 | New package created by client |
+| 101 | Pickup requested |
+| 102 | Validated by pickup officer |
+| 103 | Picked up by KiriminAja driver |
+| 104 | Package received and validated at KiriminAja DC |
+| 105 | Waiting for 3PL pickup / waiting for AWB assignment |
+
+### Shipment State
+
+Information
+
+Shipment State indicates that the package is in transit and being processed by the 3PL for delivery.
+
+| Code | Description |
+| --- | --- |
+| 106 | Package with courier / in transit |
+| 107 | Package reported by driver |
+| 110 | Pending direct pickup |
+| 152 | Re-delivery process / undelivery |
+| 210 | SOP violation / Over SLA |
+| 211 | Violation resolved |
+| 301 | Recipient refused the package |
+| 302 | Pickup canceled by seller |
+| 310 | Package rejected — recipient did not order |
+| 311 | Package rejected — recipient unwilling to pay |
+| 333 | Package destroyed by courier |
+| 350 | Pickup cancellation requested |
+| 401 | Return information from DC |
+| 402 | Arrived at KiriminAja warehouse |
+| 403 | Return request initiated |
+| 404 | Courier requested for return delivery to seller |
+| 405 | Return package rejected by seller |
+| 406 | Return package breach |
+| 500 | Package has issues |
+| 555 | Confiscated by Customs |
+| 701 | Package lost |
+| 702 | Package damaged |
+| 901 | Problematic package pickup |
+| 902 | Package issue at KiriminAja warehouse |
+| 903 | Issue on courier's side |
+| 904 | Return has issues |
+| 905 | Package data incomplete (Excel import) |
+
+### Final State
+
+Information
+
+Final State indicates that the package delivery process has been completed or stopped due to various reasons.
+
+| Code | Description |
+| --- | --- |
+| 200 | Package delivered to recipient |
+| 300 | Package canceled by client |
+| 333 | Package destroyed by courier |
+| 400 | Package successfully returned |
+| 500 | Package has issues |
+| 555 | Confiscated by Customs |
+| 703 | Lost package claim resolved |
+| 704 | Damaged package claim resolved |

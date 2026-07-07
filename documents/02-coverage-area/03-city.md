@@ -1,0 +1,23 @@
+> Source: [developer.kiriminaja.com/docs/coverage-area/city — City / Regency](https://developer.kiriminaja.com/docs/coverage-area/city)
+
+# City / Regency
+
+Retrieve the list of cities and regencies supported by KiriminAja. We will notify you of any data changes from our courier partners
+
+**Endpoint**: `POST`
+
+### Request
+
+| Field | DataType | Nullable | Desc |
+| --- | --- | --- | --- |
+| provinsi_id | int | false | Province |
+
+```
+{ "provinsi_id": 5 }
+```
+
+### Response
+
+```
+{ "status": true, "method": "kabupatens", "text": "Berhasil", "datas": [ { "id": 39, "provinsi_id": 5, "kabupaten_name": "Bantul", "type": "Kabupaten", "postal_code": "55715" }, { "id": 135, "provinsi_id": 5, "kabupaten_name": "Gunung Kidul", "type": "Kabupaten", "postal_code": "55812" }, { "id": 210, "provinsi_id": 5, "kabupaten_name": "Kulon Progo", "type": "Kabupaten", "postal_code": "55611" }, { "id": 419, "provinsi_id": 5, "kabupaten_name": "Sleman", "type": "Kabupaten", "postal_code": "55513" }, { "id": 501, "provinsi_id": 5, "kabupaten_name": "Yogyakarta", "type": "Kota", "postal_code": "55111" } ] }
+```

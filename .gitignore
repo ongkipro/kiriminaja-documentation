@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build output
+dist/
+.output/
+.netlify/
+
+# Environment
+.env
+.env.local
+.env*.local
+!.env.example
+
+# Scraped reference (kept locally for dev, NOT pushed)
+documents/_raw/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Cloudflare
+.wrangler/
+.dev.vars
+
+# Logs
+*.log
+npm-debug.log*
+
+# Test coverage
+coverage/
+
+# Temp scripts (scrapers, converters — not product code)
+/tmp/

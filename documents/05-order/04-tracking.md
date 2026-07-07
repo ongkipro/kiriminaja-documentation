@@ -1,0 +1,93 @@
+> Source: [developer.kiriminaja.com/docs/order/tracking — Tracking Order Express](https://developer.kiriminaja.com/docs/order/tracking)
+
+# Tracking Order Express
+
+Tracking information is obtained from KiriminAja and the courier service, then consolidated into one dataset
+
+**Endpoint**: `POST`
+
+## Payload
+
+### Request
+
+| Field | DataType | Nullable | Desc |
+| --- | --- | --- | --- |
+| order_id | string(max:20) | false | Order ID or AWB of your parcels |
+
+```
+{ "order_id": "OID-8793949106" }
+```
+
+## Response
+
+```
+{ "status": true, "text": "Delivered to BAGUS | 14-07-2021 16:00 | YOGYAKARTA ", "method": "shTracking", "status_code": 200, "details": { "awb": "DEVEL-000000004", "signature_code": "C1OJWQAG", "sorting_code": "JOG-JOG1000-JKT2020", "order_id": "OID-8793949106", "status_code": null, "estimation": "-", "service": "jne", "service_name": "REG", "drop": false, "shipped_at": "2021-07-13 17:44:04", "delivered": true, "delivered_at": "2021-10-17 16:53:00", "refunded": false, "refunded_at": "", "images": { "camera_img": "https://s3-ap-southeast-1.amazonaws.com/pod.paket.id/1626253243482P||1411922100004643.jpeg", "signature_img": "https://s3-ap-southeast-1.amazonaws.com/pod.paket.id/1626253255242S||1411922100004643.jpeg", "pop_img": null }, "costs": { "add_cost": 0, "currency": "IDR", "cod": 0, "insurance_amount": 0, "insurance_percent": 0, "discount_amount": 0, "subsidi_amount": 0, "shipping_cost": 10000, "correction": 0 }, "origin": { "name": "KiriminAja", "address": "Jl. Utara Stadion No.8, Jetis, Wedomartani", "phone": "628000000", "city": "Kabupaten Sleman", "zip_code": "55283" }, "destination": { "name": "Zainal Arifin", "address": "Ngaglik RT. 32 Pendowoharjo Sewon Bantul Yogyakarta 55185", "phone": "6287839087416", "city": "Kabupaten Bantul", "zip_code": "55715" } }, "histories": [ { "created_at": "2021-07-14 16:00:00", "status": "Delivered to BAGUS | 14-07-2021 16:00 | YOGYAKARTA ", "status_code": 200, "driver": "", "receiver": "BAGUS" }, { "created_at": "2021-07-14 09:53:00", "status": "With delivery courier YOGYAKARTA", "status_code": 100, "driver": "", "receiver": "" }, { "created_at": "2021-07-14 00:02:00", "status": "Received at inbound station YOGYAKARTA - KP. GAMBIRAN", "status_code": 100, "driver": "", "receiver": "" }, { "created_at": "2021-07-13 20:44:00", "status": "Shipment forwarded to destination YOGYAKARTA - KP. GAMBIRAN", "status_code": 100, "driver": "", "receiver": "" }, { "created_at": "2021-07-13 18:34:00", "status": "Received at sorting center YOGYAKARTA", "status_code": 100, "driver": "", "receiver": "" }, { "created_at": "2021-07-13 17:44:00", "status": "Shipment received by jne counter officer at YOGYAKARTA", "status_code": 100, "driver": "", "receiver": "" }, { "status": "Paket dibuat oleh KiriminAja", "status_code": 100, "created_at": "2021-07-07 14:40:42", "driver": "", "receiver": "" } ] }
+```
+
+| Field | Type | Reason |
+| --- | --- | --- |
+| status | boolean | Response status |
+| text | text | Response message |
+| status_code | number | Package status |
+| details | object | The details |
+| details.awb | string | Awb code, will be null if not processed yet |
+| details.signature_code | string | Delivery signature code |
+| details.sorting_code | string | Delivery sorting code, some 3pl |
+| details.order_id | string | Parcel order id |
+| details.estimation | string | Parcel etd, for example 3-4 |
+| details.service | string | Product type, like jne,jnt |
+| details.service_name | string | Product type, like REG,YES, or EZ |
+| details.shipped_at | timestamp | Your parcel delivery date (if already manifest by 3pl). Nullable |
+| details.delivered | boolean | Indicates if your package is delivered to recipient |
+| details.delivered_at | timestamp | Your parcel arrival date (if already received to recipient). Nullable |
+| details.refunded | boolean | Indicates if your package is returned to sender |
+| details.refunded_at | timestamp | Your parcel arrival date (if already returned to sender). Nullable |
+| details.images.camera_img | string | Proof of delivery on shipment when delivered |
+| details.images.signature_img | string | Proof of delivery (courier signature) on shipment when delivered |
+| details.images.pop_img | string | Proof of delivery (courier signature) on shipment when delivered |
+| details.costs | object |  |
+| details.origin | object |  |
+| details.destination | object |  |
+| histories | array |  |
+
+### details.costs
+
+| Field | Type | Reason |
+| --- | --- | --- |
+| add_cost | number | Validated COD Fee |
+| currency | string | Currency config, default is IDR |
+| cod | number | COD Amount, if 0 mean your shipment is non-cod delivery |
+| insurance_amount | number | Validated insurance amount |
+| insurance_percent | number | Validated insurance percent (principal) |
+| discount_amount | number | Validated discount amount |
+| subsidi_amount | number | Shipment cover cost (principal) |
+| shipping_cost | number | Actual shipping cost |
+| correction | number | Correction cost |
+
+### details.origin & details.destination
+
+| Field | Type | Reason |
+| --- | --- | --- |
+| name | string | String |
+| address | string | Delivery address detail |
+| phone | string | Phone |
+| city | string | City name |
+| zip_code | number | Zipcode |
+
+### histories
+
+| Field | Type | Reason |
+| --- | --- | --- |
+| created_at | timestamp | Histories time |
+| status | text | Delivery remarks, free text by 3pl |
+| status_code | number | Mapped status_code by KiriminAja |
+| driver | string | Driver name |
+| receiver | string | Receiver name |
+
+## Limitations
+
+As this endpoint is a consolidated tracking information, the data may not be available for all courier services. If you encounter any issues, please contact our support team for assistance.
+
+And please be sure that we implement throttling mechanism to avoid abuse of this endpoint. If you exceed the request limit, you may receive a 429 Too Many Requests response.
+
+Create Instant Package Place an instant (same-day) delivery order via GoSend, GrabExpress, or Borzo with KA Credit payment support.Tracking Order Instant Get the details of your awb which created via KiriminAja API

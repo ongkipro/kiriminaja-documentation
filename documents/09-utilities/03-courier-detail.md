@@ -1,0 +1,41 @@
+> Source: [developer.kiriminaja.com/docs/others/courier-detail — Courier Detail](https://developer.kiriminaja.com/docs/others/courier-detail)
+
+# Courier Detail
+
+The list of couriers available in the KiriminAja API, staging and production may be the difference
+
+**Endpoint**: `POST`
+
+### Request
+
+| Field | DataType | Nullable | Desc |
+| --- | --- | --- | --- |
+| courier_code | string | false | Courier |
+
+```
+{ "courier_code": "jne" }
+```
+
+## Response Sample
+
+```
+{ "status": true, "method": "get_services_from_courier", "text": "Data Loaded", "datas": [ { "name": "Reguler", "code": "REG", "cut_off_time": "23:03:00", "volumetrik": "6000", "rounded": 0.3, "courier_group": "regular" }, { "name": "OKE", "code": "OKE", "cut_off_time": null, "volumetrik": "6000", "rounded": 0.3, "courier_group": "economy" }, { "name": "Trucking", "code": "JTR", "cut_off_time": null, "volumetrik": "6000", "rounded": 0.3, "courier_group": "cargo" }, { "name": "YES", "code": "YES", "cut_off_time": null, "volumetrik": "6000", "rounded": 0.3, "courier_group": "next_day" }, { "name": "Reguler", "code": "REG19", "cut_off_time": "06:03:00", "volumetrik": "6000", "rounded": 0.3, "courier_group": "regular" }, { "name": "OKE", "code": "OKE19", "cut_off_time": null, "volumetrik": "6000", "rounded": 0.3, "courier_group": "economy" }, { "name": "YES", "code": "YES19", "cut_off_time": "05:05:00", "volumetrik": "6000", "rounded": 0.3, "courier_group": "next_day" }, { "name": "Trucking", "code": "JTR18", "cut_off_time": null, "volumetrik": "5000", "rounded": 0.3, "courier_group": "cargo" }, { "name": "Trucking", "code": "JTR23", "cut_off_time": null, "volumetrik": null, "rounded": null, "courier_group": "cargo" } ] }
+```
+
+| Param | DataType | Remark |
+| --- | --- | --- |
+| status | Boolean | Request result status |
+| method | String | API method name (get_services_from_courier) |
+| text | String | Response message |
+| datas | Array of Object | List of available courier services |
+
+### Datas Object
+
+| Param | DataType | Remark |
+| --- | --- | --- |
+| name | String | Service display name |
+| code | String | Service type code |
+| cut_off_time | String | Last processing time for this service (can be null) |
+| volumetrik | String | Volumetric divider used by courier (can be null) |
+| rounded | Number | Weight rounding configuration (can be null) |
+| courier_group | String | Service grouping (regular, economy, next_day, etc.) |
