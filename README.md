@@ -22,7 +22,7 @@ Use it with any server-capable stack: **Next.js**, **Astro**, Node, Hono, Larave
 
 [KiriminAja](https://kiriminaja.com) is an Indonesian logistics aggregator: one API for multi-courier shipping rates, shipment creation, pickup scheduling, and tracking across 15+ couriers.
 
-This repository contains the complete reference documentation scraped from [developer.kiriminaja.com](https://developer.kiriminaja.com) — 34 pages across 10 sections, extracted and formatted for offline reference and integration planning.
+This repository contains scraped reference documentation from [developer.kiriminaja.com](https://developer.kiriminaja.com) — 34 pages across 10 sections, kept here for offline reference.
 
 > **Verified:** page structure, sidebar navigation, and endpoint categories were captured 2026-07-07 from the live developer portal. Content includes request/response payloads, status code taxonomy, error codes, and environment configuration.
 
@@ -145,28 +145,34 @@ Minimum requirements:
 ```
 .
 ├── README.md                 ← this file
-├── AGENTS.md                 ← contract for AI coding agents (scraping + integration rules)
-├── .gitignore
+├── AGENTS.md                 ← repo conventions
+├── Makefile                  ← make check | clean
+├── CHANGELOG.md · SECURITY.md · CONTRIBUTING.md · LICENSE
 ├── .env.example              ← credential template (→ .env)
-├── spec/
-│   └── openapi.yaml          ← [STUB] OpenAPI 3.1 — will be populated with verified schemas
+├── .gitignore
+├── assets/
+│   └── kiriminaja-banner.svg
 ├── documents/                ← 34 scraped reference pages across 10 sections
 │   ├── 00-INDEX.md           ← navigation map + endpoint summary
-│   ├── 01-get-started/       ← auth, sandbox/prod environments, rate limiting, SDKs
-│   ├── 02-coverage-area/     ← province → city → district → sub-district lookup
-│   ├── 03-important-notes/   ← status codes, service list, shipping label format
+│   ├── 01-get-started/       ← auth, sandbox/prod, quick-start
+│   ├── 02-coverage-area/     ← province → city → district → sub-district
+│   ├── 03-important-notes/   ← status codes, service list, shipping label
 │   ├── 04-pricing/           ← express & instant rate quoting
 │   ├── 05-order/             ← create, track, cancel (express + instant)
 │   ├── 06-pickup-delivery/   ← pickup scheduling
-│   ├── 07-webhooks/          ← callback registration + event payload schemas
-│   ├── 08-payment/           ← QRIS payment, KA Credit, PIN validation
+│   ├── 07-webhooks/          ← callback registration + payload schemas
+│   ├── 08-payment/           ← QRIS, KA Credit, PIN validation
 │   ├── 09-utilities/         ← courier list/group/detail, preferences
-│   └── 10-deprecated-api/    ← legacy v6.1 + v4 order shapes
-├── src/                      ← [COMING] integration examples for Next.js, Astro, Hono
-└── scripts/                  ← [COMING] smoke tests, link validation
+│   └── 10-deprecated-api/    ← legacy v6.1 + v4 shapes
+├── examples/
+│   ├── README.md             ← client usage guide
+│   └── kiriminaja-client.ts  ← community TypeScript client (server-only)
+├── scripts/
+│   └── smoke.sh              ← read-only sandbox smoke test
+├── spec/
+│   └── openapi.yaml          ← OpenAPI 3.1 placeholder
+└── requests.http             ← REST client examples (VS Code / JetBrains)
 ```
-
-> **Building integrations with this repo (human or AI)?** Read **[AGENTS.md](AGENTS.md)** first — rules for server-only keys, the two different "origin" IDs, `COD_AMOUNT` casing, batch concurrency limits, and async shipment patterns.
 
 ---
 
@@ -227,34 +233,26 @@ Patterns observed from the reference — critical for integration:
 
 ## How this was produced
 
-| Step | Tool | Detail |
-|---|---|---|
-| URL discovery | Browser sidebar crawl | 34 unique page slugs from `developer.kiriminaja.com` navigation |
-| HTML render | Playwright-core + Chrome headless | 4 parallel contexts, 25–35s per page, network idle + scroll trigger |
-| Markdown conversion | Custom Node.js script | Body content extraction, nav/aside/footer stripping, heading/tables/code preservation |
-| Post-processing | Cleanup script | Source URL fix, garbled line removal, heading dedup, footer nav strip |
+Pages were scraped from [developer.kiriminaja.com](https://developer.kiriminaja.com) in July 2026. The site is a Nuxt SPA — a headless browser was used to wait for client-side hydration, then the rendered DOM was extracted to markdown. Plain HTTP requests return empty shells.
 
-> The developer portal is Nuxt SPA (client-side hydrated). Plain `curl`/`fetch` returns empty HTML shells — headless browser rendering was required.
-
-To regenerate after upstream docs change:
+To refresh after upstream changes:
 
 ```bash
-# Update /tmp/kirimin-urls.txt with new slugs, then:
-node /tmp/scrape-final.cjs    # renders all pages to HTML (parallel, 4 contexts)
-node /tmp/extract-md-v2.cjs   # converts HTML → Markdown
-node /tmp/clean-md.cjs        # post-process: URLs, garbage, dedup
+# Update /tmp/kirimin-urls.txt with current slugs, then:
+node /tmp/scrape-final.cjs    # renders pages to HTML
+node /tmp/extract-md-v2.cjs   # converts HTML → markdown
+node /tmp/clean-md.cjs        # post-process cleanup
 ```
-
-Requires: `playwright-core` + system Google Chrome.
 
 ---
 
 ## Changelog
 
+See [CHANGELOG.md](CHANGELOG.md) for full history.
+
 | Date | Change |
 | --- | --- |
-| 2026-07-07 | **Scrape complete:** 34 pages across 10 sections. Extracted, cleaned, indexed. |
-| 2026-07-07 | **Workspace initialised:** README, AGENTS.md, .gitignore, .env.example, spec/openapi.yaml stub, LICENSE. |
+| 2026-07-07 | 34 pages scraped, cleaned, and indexed. Project files added. |
 
 ---
 

@@ -1,0 +1,160 @@
+### KiriminAja Sandbox API — REST Client Examples
+###
+### Use with VS Code REST Client or JetBrains HTTP Client.
+### Set @apiKey in your environment, or replace with a real key.
+###
+### Endpoint base: https://tdev.kiriminaja.com
+### Auth: Bearer token
+
+@baseUrl = https://tdev.kiriminaja.com
+@apiKey = {{KA_API_KEY}}
+
+###
+
+# ═══════════════════════════════════════════
+# Coverage Area
+# ═══════════════════════════════════════════
+
+### List provinces
+POST {{baseUrl}}/coverage-area/province
+Authorization: Bearer {{apiKey}}
+Content-Type: application/json
+Accept: application/json
+
+{}
+
+### List cities (province_id = 5)
+POST {{baseUrl}}/coverage-area/city
+Authorization: Bearer {{apiKey}}
+Content-Type: application/json
+
+{ "provinsi_id": 5 }
+
+### Search districts by keyword
+POST {{baseUrl}}/coverage-area/district-by-name
+Authorization: Bearer {{apiKey}}
+Content-Type: application/json
+
+{ "keyword": "jakarta" }
+
+###
+
+# ═══════════════════════════════════════════
+# Pricing
+# ═══════════════════════════════════════════
+
+### Express rate quote
+POST {{baseUrl}}/pricing/express
+Authorization: Bearer {{apiKey}}
+Content-Type: application/json
+
+{
+  "origin_id": 1,
+  "destination_id": 2,
+  "courier": "all",
+  "weight": 1000,
+  "item_value": 50000
+}
+
+### Instant rate quote
+POST {{baseUrl}}/pricing/instant
+Authorization: Bearer {{apiKey}}
+Content-Type: application/json
+
+{
+  "service": ["gosend"],
+  "item_price": 10000,
+  "origin": { "lat": -6.2, "long": 106.8, "address": "Jakarta Pusat" },
+  "destination": { "lat": -6.21, "long": 106.81, "address": "Jakarta Selatan" },
+  "weight": 1000,
+  "vehicle": "motor",
+  "timezone": "Asia/Jakarta"
+}
+
+###
+
+# ═══════════════════════════════════════════
+# Order — Express
+# ═══════════════════════════════════════════
+
+### Create express shipment
+POST {{baseUrl}}/order/express
+Authorization: Bearer {{apiKey}}
+Content-Type: application/json
+
+{
+  "address": "Jl. Example No.1",
+  "name": "Test Store",
+  "phone": "6281234567890",
+  "kecamatan_id": 548,
+  "schedule": "2026-01-01 10:00:00",
+  "packages": [
+    {
+      "order_id": "TEST-001",
+      "destination_name": "Buyer",
+      "destination_phone": "6289876543210",
+      "destination_address": "Jl. Destination No.5",
+      "destination_kecamatan_id": 3175,
+      "weight": 1000,
+      "width": 10, "height": 10, "length": 10,
+      "item_name": "Test Item",
+      "item_value": 100000,
+      "shipping_cost": 15000,
+      "service": "jne",
+      "service_type": "REG23",
+      "cod": 0
+    }
+  ]
+}
+
+### Track by order ID
+GET {{baseUrl}}/order/tracking?order_id=TEST-001
+Authorization: Bearer {{apiKey}}
+Accept: application/json
+
+### Cancel shipment
+POST {{baseUrl}}/order/void
+Authorization: Bearer {{apiKey}}
+Content-Type: application/json
+
+{ "awb": "AWB123456", "reason": "customer cancel" }
+
+###
+
+# ═══════════════════════════════════════════
+# Utilities
+# ═══════════════════════════════════════════
+
+### Courier list
+POST {{baseUrl}}/others/courier-list
+Authorization: Bearer {{apiKey}}
+Content-Type: application/json
+
+{}
+
+### Courier detail
+POST {{baseUrl}}/others/courier-detail
+Authorization: Bearer {{apiKey}}
+Content-Type: application/json
+
+{ "courier_code": "jne" }
+
+###
+
+# ═══════════════════════════════════════════
+# Payment
+# ═══════════════════════════════════════════
+
+### Get payment QR
+POST {{baseUrl}}/payment
+Authorization: Bearer {{apiKey}}
+Content-Type: application/json
+
+{ "payment_id": "XID-5732095327" }
+
+### KA Credit balance
+POST {{baseUrl}}/payment/ka-credit
+Authorization: Bearer {{apiKey}}
+Content-Type: application/json
+
+{}
