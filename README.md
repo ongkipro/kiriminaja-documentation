@@ -1,10 +1,10 @@
 <div align="center">
 
-<img src="assets/kiriminaja-banner.svg" alt="KiriminAja API Reference Documentation" width="100%">
+<img src="assets/kiriminaja-banner.svg" alt="KiriminAja API Reference & Integration Toolkit" width="100%">
 
-**Reference documentation and integration patterns for KiriminAja's Indonesia multi-courier shipping API — curated by [ongki.pro](https://ongki.pro).**
+**Integration toolkit and reference for KiriminAja's Indonesia multi-courier shipping API — curated by [ongki.pro](https://ongki.pro).**
 
-Use it with any server-capable stack: **Next.js**, **Astro**, Node, Hono, Laravel, Python, Go, serverless functions, or your own backend.
+Use it from the terminal, from your own code, or as a [Claude Code](https://claude.com/claude-code) plugin. Works with any server-capable stack: **Next.js**, **Astro**, Node, Hono, Laravel, Python, Go, serverless functions, or your own backend.
 
 [![by ongki.pro](https://img.shields.io/badge/by-ongki.pro-34d399?labelColor=0b1220)](https://ongki.pro)
 ![pages](https://img.shields.io/badge/pages-34-success)
@@ -22,15 +22,74 @@ Use it with any server-capable stack: **Next.js**, **Astro**, Node, Hono, Larave
 
 [KiriminAja](https://kiriminaja.com) is an Indonesian logistics aggregator: one API for multi-courier shipping rates, shipment creation, pickup scheduling, and tracking across 15+ couriers.
 
-This repository contains scraped reference documentation from [developer.kiriminaja.com](https://developer.kiriminaja.com) — 34 pages across 10 sections, kept here for offline reference.
+This repository gives you three ways to work with that API:
 
-> **Verified:** page structure, sidebar navigation, and endpoint categories were captured 2026-07-07 from the live developer portal. Content includes request/response payloads, status code taxonomy, error codes, and environment configuration.
+1. **Reference documentation** — 34 pages across 10 sections (`documents/`), covering request/response payloads, the status-code taxonomy, error codes, and environment configuration.
+2. **A CLI and a TypeScript client** — call every endpoint from the terminal (`scripts/ka.mjs`) or from your own backend (`examples/kiriminaja-client.ts`).
+3. **A Claude Code plugin** — skills, slash commands, and a subagent that drive an integration end to end.
 
-> **API access:** this repository does not provide API keys. To request production/sandbox API access, register at the [Sandbox Dashboard](https://sandbox.kiriminaja.com/).
+> **API access:** this repository does not provide API keys. To request production/sandbox access, register at the [Sandbox Dashboard](https://sandbox.kiriminaja.com/).
 
-> **Language note:** this README is written in English for public discoverability. The detailed reference documents may remain in Indonesian where it is more practical for implementation teams.
+**Contents:** [Quick start](#quick-start) · [Claude Code plugin](#claude-code-plugin) · [Architecture](#architecture) · [Core flow](#core-flow) · [Endpoints](#endpoints-18-reference) · [Where to implement](#where-to-implement) · [Repository layout](#repository-layout) · [Documentation index](#documentation-index) · [Important notes](#important-implementation-notes) · [Changelog](#changelog)
 
-**Contents:** [Architecture](#architecture) · [Core flow](#core-flow) · [Endpoints](#endpoints-18-reference) · [Repository layout](#repository-layout) · [Documentation index](#documentation-index) · [Quick start](#quick-start) · [Important notes](#important-implementation-notes) · [How this was produced](#how-this-was-produced) · [Changelog](#changelog)
+---
+
+## Quick start
+
+```bash
+# 1. Get a key — register at https://sandbox.kiriminaja.com/ → approval → copy from Integrasi
+cp .env.example .env        # then fill in KIRIMINAJA_SANDBOX_KEY
+
+# 2. Call the API from the terminal (zero dependencies, Node.js 18+)
+node scripts/ka.mjs provinces
+node scripts/ka.mjs find "Palagan"
+node scripts/ka.mjs rate --origin 5788 --dest 3175 --weight 1000 --courier all
+node scripts/ka.mjs track --order FEB-1782355684238
+node scripts/ka.mjs help
+
+# 3. Or read the reference — start with:
+#    documents/01-get-started/01-introduction.md
+#    documents/03-important-notes/02-status-mapping.md
+#    documents/05-order/01-express.md
+```
+
+From your own code:
+
+```ts
+import { KiriminAjaClient } from "./examples/kiriminaja-client";
+
+const ka = new KiriminAjaClient({ apiKey: process.env.KIRIMINAJA_SANDBOX_KEY! });
+const rates = await ka.pricing.express({ origin_id: 5788, destination_id: 3175, weight: 1000 });
+```
+
+**Key principle:** the API key must never reach the browser. All calls go through your server or the CLI, with GET caching, key redaction in logs, a queue/retry for shipment creation, and backoff-based tracking polling.
+
+---
+
+## Claude Code plugin
+
+Install this repository as a plugin and get shipping-aware skills and commands inside Claude Code.
+
+```
+# In Claude Code:
+/plugin marketplace add ongkipro/kiriminaja-documentation
+/plugin install kiriminaja@kiriminaja-documentation
+```
+
+**Slash commands**
+
+| Command | Purpose |
+| --- | --- |
+| `/ka-rate <origin> <dest> [weight] [courier]` | Quote express shipping rates |
+| `/ka-track <order_id\|awb>` | Track a shipment and explain its status |
+| `/ka-order [order.json]` | Assemble and create an express shipment |
+| `/ka-coverage <name>` | Resolve an address to an area ID |
+| `/ka-couriers [code]` | List couriers or show one courier's services |
+| `/ka-webhook [url]` | Register a webhook or scaffold a handler |
+
+**Skills** — `kiriminaja` (router) plus `coverage`, `pricing`, `order`, `tracking`, `webhooks`, and `payment`, each with the exact payloads, status codes, and gotchas for its area.
+
+**Subagent** — `kiriminaja-integrator` for end-to-end integration work across multiple endpoints.
 
 ---
 
@@ -48,8 +107,6 @@ flowchart LR
     style SRV fill:#fde68a,stroke:#d97706
     style KA fill:#bfdbfe,stroke:#2563eb
 ```
-
-**Key principle:** the API key must never reach the browser. All calls go through your server, with GET caching, key redaction in logs, queue/retry for shipment creation, and backoff-based tracking polling.
 
 ---
 
@@ -145,14 +202,23 @@ Minimum requirements:
 ```
 .
 ├── README.md                 ← this file
-├── AGENTS.md                 ← repo conventions
-├── Makefile                  ← make check | clean
+├── Makefile                  ← make check | smoke | help
 ├── CHANGELOG.md · SECURITY.md · CONTRIBUTING.md · LICENSE
 ├── .env.example              ← credential template (→ .env)
-├── .gitignore
-├── assets/
-│   └── kiriminaja-banner.svg
-├── documents/                ← 34 scraped reference pages across 10 sections
+├── .claude-plugin/           ← Claude Code plugin + marketplace manifests
+│   ├── plugin.json
+│   └── marketplace.json
+├── skills/                   ← plugin skills (router + 6 topic guides)
+├── commands/                 ← slash commands (/ka-rate, /ka-track, …)
+├── agents/                   ← kiriminaja-integrator subagent
+├── scripts/
+│   ├── ka.mjs                ← zero-dependency CLI
+│   └── smoke.sh              ← read-only sandbox smoke test
+├── examples/
+│   ├── README.md             ← client usage guide
+│   ├── kiriminaja-client.ts  ← TypeScript client (server-only)
+│   └── order.json            ← sample express order payload
+├── documents/                ← 34 reference pages across 10 sections
 │   ├── 00-INDEX.md           ← navigation map + endpoint summary
 │   ├── 01-get-started/       ← auth, sandbox/prod, quick-start
 │   ├── 02-coverage-area/     ← province → city → district → sub-district
@@ -164,14 +230,8 @@ Minimum requirements:
 │   ├── 08-payment/           ← QRIS, KA Credit, PIN validation
 │   ├── 09-utilities/         ← courier list/group/detail, preferences
 │   └── 10-deprecated-api/    ← legacy v6.1 + v4 shapes
-├── examples/
-│   ├── README.md             ← client usage guide
-│   └── kiriminaja-client.ts  ← community TypeScript client (server-only)
-├── scripts/
-│   └── smoke.sh              ← read-only sandbox smoke test
-├── spec/
-│   └── openapi.yaml          ← OpenAPI 3.1 placeholder
-└── requests.http             ← REST client examples (VS Code / JetBrains)
+└── spec/
+    └── openapi.yaml          ← OpenAPI 3.1 (in progress)
 ```
 
 ---
@@ -195,30 +255,9 @@ Recommended reading order: `01 → 03 → 04 → 05`, then explore based on your
 
 ---
 
-## Quick start
-
-```bash
-# 1. Get your API key
-# Register at https://sandbox.kiriminaja.com/ → wait for approval → copy key from Integrasi
-
-# 2. Test a shipping estimate (sandbox)
-curl -sS -X POST "https://tdev.kiriminaja.com/api/public/{YOUR_KEY}/coverage-area/province" \
-  -H "Authorization: Bearer {YOUR_KEY}" \
-  -H "Accept: application/json" \
-  -H "Content-Type: application/json" \
-  -d '{}' | jq .
-
-# 3. Explore the reference docs
-# Start with documents/01-get-started/01-introduction.md
-# Then read documents/03-important-notes/02-status-mapping.md
-# Then documents/05-order/01-express.md for the main order creation flow
-```
-
----
-
 ## Important implementation notes
 
-Patterns observed from the reference — critical for integration:
+Patterns critical for a correct integration:
 
 - **Two different "origin" IDs**: rate quoting uses an area `_id` from location search; pickup scheduling uses a separate pickup-address `_id`. These must not be mixed up.
 - **Async AWB assignment**: `POST /order/express` returns immediately with a `pickup_number`. The actual tracking number (`awb`) arrives later via webhook. Poll `/order/tracking` with backoff as fallback.
@@ -231,39 +270,23 @@ Patterns observed from the reference — critical for integration:
 
 ---
 
-## How this was produced
-
-Pages were scraped from [developer.kiriminaja.com](https://developer.kiriminaja.com) in July 2026. The site is a Nuxt SPA — a headless browser was used to wait for client-side hydration, then the rendered DOM was extracted to markdown. Plain HTTP requests return empty shells.
-
-To refresh after upstream changes:
-
-```bash
-# Update /tmp/kirimin-urls.txt with current slugs, then:
-node /tmp/scrape-final.cjs    # renders pages to HTML
-node /tmp/extract-md-v2.cjs   # converts HTML → markdown
-node /tmp/clean-md.cjs        # post-process cleanup
-```
-
----
-
 ## Changelog
 
 See [CHANGELOG.md](CHANGELOG.md) for full history.
 
 | Date | Change |
 | --- | --- |
-| 2026-07-07 | 34 pages scraped, cleaned, and indexed. Project files added. |
+| 2026-07-07 | v0.1.0 — reference docs, CLI, TypeScript client, and Claude Code plugin. |
 
 ---
 
 ## Disclaimer
 
-This repository is **community-curated reference documentation** and is **not affiliated with, endorsed by, or officially connected to KiriminAja or PT Selalu Siap Solusi.**
+This repository is **community-curated** and is **not affiliated with, endorsed by, or officially connected to KiriminAja or PT Selalu Siap Solusi.**
 
 - All KiriminAja trademarks, logos, and brand names are property of their respective owners.
-- The content was scraped from the publicly accessible [developer.kiriminaja.com](https://developer.kiriminaja.com) for educational and integration-planning purposes.
+- The reference content documents the publicly accessible [developer.kiriminaja.com](https://developer.kiriminaja.com) for integration purposes.
 - For official documentation, always refer to [developer.kiriminaja.com](https://developer.kiriminaja.com).
-- No API keys, credentials, or private data were scraped or stored.
 
 ---
 
@@ -275,39 +298,24 @@ This repository is **community-curated reference documentation** and is **not af
 | [kiriminaja/node](https://github.com/kiriminaja/node) | Official Node.js SDK — npm package (`kiriminaja`) |
 | [kiriminaja/go](https://github.com/kiriminaja/go) | Official Go SDK — zero external dependencies |
 | [kiriminaja/python](https://github.com/kiriminaja/python) | Official Python SDK |
-| [kiriminaja/ruby](https://github.com/kiriminaja/ruby) | Official Ruby SDK |
-| [kiriminaja/rust](https://github.com/kiriminaja/rust) | Official Rust SDK |
-| [kiriminaja/docs](https://github.com/kiriminaja/docs) | Official docs source (Nuxt Content) |
 | [kiriminaja/wordpress](https://github.com/kiriminaja/wordpress) | Official WooCommerce plugin |
-| [ongkipro/mengantar-documentation](https://github.com/ongkipro/mengantar-documentation) | Similar reference docs for Mengantar API (sister repo) |
+| [kiriminaja/docs](https://github.com/kiriminaja/docs) | Official docs source (Nuxt Content) |
+| [ongkipro/mengantar-documentation](https://github.com/ongkipro/mengantar-documentation) | Reference toolkit for the Mengantar API (sister repo) |
 
 ---
 
 ## Contributing
 
-This is a reference-only repository. The scraped documents in `documents/` are not intended for manual editing.
+Contributions to the tooling, client, and examples are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md).
 
-- **Corrections:** if you find factual errors, [open an issue](https://github.com/ongkipro/kiriminaja-documentation/issues).
-- **Upstream changes:** the scrape process can be re-run when KiriminAja updates their developer portal. See [How this was produced](#how-this-was-produced).
-- **Pull requests:** welcome for README improvements, tooling, and integration examples (when `src/` is added).
-
----
-
-## Security
-
-- No API keys, credentials, or authentication tokens are stored in this repository.
-- The `.env.example` file is a template only — never commit a real `.env` file.
-- If you discover a security issue with the scraping process, please [open an issue](https://github.com/ongkipro/kiriminaja-documentation/issues) rather than a public discussion.
+- **Corrections:** if reference content is factually wrong, [open an issue](https://github.com/ongkipro/kiriminaja-documentation/issues).
+- **Pull requests:** welcome for the CLI, client, plugin, and integration examples.
 
 ---
 
 ## About
 
-This reference documentation is curated by **[ongki.pro](https://ongki.pro)**.
-
-We build tools for Indonesian commerce — shipping integration, storefronts, payments, and automation — with a terminal-first engineering philosophy.
-
-**Governance:** [AGENTS.md](AGENTS.md) · [LICENSE](LICENSE)
+This toolkit is curated by **[ongki.pro](https://ongki.pro)** — we build tools for Indonesian commerce: shipping integration, storefronts, payments, and automation, with a terminal-first engineering philosophy.
 
 <div align="center">
 

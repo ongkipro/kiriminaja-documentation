@@ -1,0 +1,41 @@
+{
+  "address": "Kiriminaja Head, Jalan Palagan No 32",
+  "name": "Toko Sumber Rejeki",
+  "phone": "6281234567890",
+  "kecamatan_id": 5788,
+  "kelurahan_id": 31554,
+  "zipcode": "55581",
+  "latitude": -7.765,
+  "longitude": 110.378,
+  "platform_name": "MitraAPI",
+  "payment_method": "credit",
+  "pin": "123456",
+  "schedule": "2026-06-25 10:00:00",
+  "packages": [
+    {
+      "order_id": "FEB-1782355684238",
+      "destination_name": "Lita Ang",
+      "destination_phone": "6281567948619",
+      "destination_address": "Surabaya Baru, Bandar Surabaya, Lampung Tengah, Lampung, 34159",
+      "destination_provinsi_id": 18,
+      "destination_kabupaten_id": 225,
+      "destination_kecamatan_id": 3175,
+      "destination_zipcode": "34159",
+      "weight": 1000,
+      "width": 30,
+      "height": 15,
+      "length": 20,
+      "shipping_cost": 64000,
+      "service": "jne",
+      "service_type": "REG23",
+      "insurance_amount": 0,
+      "add_cost": 0,
+      "cod": 0,
+      "item_name": "Sepatu",
+      "item_value": 250000,
+      "package_type_id": 9,
+      "drop": false,
+      "note": "Sepatu bagus."
+    }
+  ]
+}

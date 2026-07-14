@@ -9,7 +9,7 @@
 # - Authentication scheme
 #
 # Reference material for designing this spec:
-# → documents/00-INDEX.md (endpoint summary from reference scrape)
+# → documents/00-INDEX.md (endpoint summary)
 
 openapi: "3.1.0"
 info:

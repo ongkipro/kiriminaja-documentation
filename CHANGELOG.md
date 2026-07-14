@@ -1,36 +1,25 @@
 # Changelog
 
-All notable changes to this reference documentation repository.
+All notable changes to this project.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-## [2026-07-07] — Initial Scrape & Setup
+## [0.1.0] — 2026-07-07
 
 ### Added
 
-- **Scraped 34 pages** from `developer.kiriminaja.com` across 10 sections:
-  - 01 Get Started (auth, environments, quick-start)
-  - 02 Coverage Area (province, city, district, sub-district, keyword search)
-  - 03 Important Notes (status codes, service list, shipping label)
-  - 04 Pricing (express, instant rate quoting)
-  - 05 Order (create, track, cancel — express + instant)
-  - 06 Pickup Delivery (schedule management)
-  - 07 Webhooks (callback registration, event payloads)
-  - 08 Payment (QRIS, KA Credit, PIN validation)
-  - 09 Utilities (courier list/group/detail, preferences, SDK availability)
-  - 10 Deprecated API (legacy v6.1 express, v4 instant)
-- **Documentation index** (`documents/00-INDEX.md`) with endpoint summary
-- **README.md** with 16 sections: architecture diagrams, endpoint table, docs index, where to implement, quick start, important notes
-- **AGENTS.md**: 8 hard rules + scraping conventions
-- **Banner SVG** (`assets/kiriminaja-banner.svg`)
-- **OpenAPI 3.1 placeholder** (`spec/openapi.yaml`)
-- Project files: `.gitignore`, `.env.example`, `LICENSE` (MIT)
-
-### Technical Notes
-
-- All pages rendered via Playwright + headless Chrome (Nuxt SPA site)
-- Post-processed: source URL fix, garbage removal, heading dedup, footer strip
-- Raw HTML backups excluded from git via `.gitignore` (`documents/_raw/`)
-- 42 tracked files, ~125 KB total
+- **Claude Code plugin** — installable via the bundled marketplace
+  (`.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`):
+  - Skills: `kiriminaja` (router) plus `coverage`, `pricing`, `order`, `tracking`, `webhooks`,
+    and `payment`.
+  - Slash commands: `/ka-rate`, `/ka-track`, `/ka-order`, `/ka-coverage`, `/ka-couriers`,
+    `/ka-webhook`.
+  - Subagent: `kiriminaja-integrator` for end-to-end integration work.
+- **CLI** — `scripts/ka.mjs`, a zero-dependency client (coverage lookup, rate quoting, order
+  create/track/void, courier list, KA Credit balance, webhook registration).
+- **TypeScript client** — `examples/kiriminaja-client.ts`, server-only, covering every endpoint.
+- **Reference documentation** — 34 pages across 10 sections under `documents/`, with an index at
+  `documents/00-INDEX.md`.
+- **OpenAPI 3.1 spec** stub (`spec/openapi.yaml`), banner, `.env.example`, and MIT `LICENSE`.

@@ -1,0 +1,21 @@
+{
+  "name": "kiriminaja",
+  "version": "0.1.0",
+  "description": "Integrate KiriminAja's Indonesian multi-courier shipping API — rate quoting, order creation, tracking, coverage-area lookup, webhooks, and payment. Ships slash commands, skills, and a zero-dependency CLI.",
+  "author": {
+    "name": "ongki.pro",
+    "url": "https://ongki.pro"
+  },
+  "homepage": "https://github.com/ongkipro/kiriminaja-documentation",
+  "repository": "https://github.com/ongkipro/kiriminaja-documentation",
+  "license": "MIT",
+  "keywords": [
+    "kiriminaja",
+    "shipping",
+    "logistics",
+    "indonesia",
+    "courier",
+    "ecommerce",
+    "tracking"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "name": "kiriminaja-documentation",
+  "owner": {
+    "name": "ongki.pro",
+    "url": "https://ongki.pro"
+  },
+  "metadata": {
+    "description": "KiriminAja shipping API integration toolkit — reference docs, a CLI, and a Claude Code plugin.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "kiriminaja",
+      "source": ".",
+      "description": "Integrate KiriminAja's multi-courier shipping API: rates, orders, tracking, coverage-area lookup, webhooks, and payment.",
+      "version": "0.1.0",
+      "category": "integration",
+      "keywords": ["shipping", "logistics", "indonesia", "courier", "ecommerce"]
+    }
+  ]
+}

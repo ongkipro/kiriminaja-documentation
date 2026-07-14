@@ -24,11 +24,16 @@ check: ## Validate repo: broken links, file integrity, content quality
 	@bash -c 'for f in documents/*/*.md; do sz=$$(wc -c < "$$f" | tr -d " "); if [ "$$sz" -lt 500 ]; then echo "FAIL: $$f — $$sz bytes (min 500)"; exit 1; fi; done; echo "  OK: all files > 500 bytes"'
 	@echo ""
 	@echo "=== Checking trailing newlines ==="
-	@bash -c 'for f in documents/*/*.md README.md AGENTS.md CHANGELOG.md SECURITY.md; do [ -f "$$f" ] || continue; if [ "$$(tail -c 1 "$$f" | xxd -p)" != "0a" ]; then echo "FAIL: $$f — no trailing newline"; exit 1; fi; done; echo "  OK: all files have trailing newlines"'
+	@bash -c 'for f in documents/*/*.md README.md CHANGELOG.md SECURITY.md; do [ -f "$$f" ] || continue; if [ "$$(tail -c 1 "$$f" | xxd -p)" != "0a" ]; then echo "FAIL: $$f — no trailing newline"; exit 1; fi; done; echo "  OK: all files have trailing newlines"'
+	@echo ""
+	@echo "=== Checking plugin manifests ==="
+	@node -e 'JSON.parse(require("fs").readFileSync(".claude-plugin/plugin.json")); JSON.parse(require("fs").readFileSync(".claude-plugin/marketplace.json"));' \
+	 && echo "  OK: plugin.json + marketplace.json are valid JSON"
+	@echo ""
+	@echo "=== Checking CLI ==="
+	@node --check scripts/ka.mjs && echo "  OK: scripts/ka.mjs parses"
 	@echo ""
 	@echo "✅ All checks passed."
 
-clean: ## Remove generated artifacts (raw HTML)
-	@echo "Removing raw HTML backups..."
-	@rm -rf documents/_raw/
-	@echo "Done."
+smoke: ## Run the read-only sandbox smoke test (needs KA_API_KEY)
+	@bash scripts/smoke.sh

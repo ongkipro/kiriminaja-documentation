@@ -13,8 +13,9 @@ dist/
 .env*.local
 !.env.example
 
-# Scraped reference (kept locally for dev, NOT pushed)
-documents/_raw/
+# Local order payloads (may contain recipient data)
+order*.json
+!examples/order.json
 
 # OS
 .DS_Store
@@ -37,5 +38,5 @@ npm-debug.log*
 # Test coverage
 coverage/
 
-# Temp scripts (scrapers, converters — not product code)
+# Scratch
 /tmp/
